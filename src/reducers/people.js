@@ -28,12 +28,11 @@ const initialState = {
 export default function browse(state = initialState, action) {
   switch (action.type) {
 
-    // this is an example
-    case types.DO_NOTHING:
-      return state;
-
-    // ...
-
+    case types.SEARCH_QUERY:
+      return {
+        ...state,
+        filterQuery: action.input
+      }
     default:
       return state;
   }

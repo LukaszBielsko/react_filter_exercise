@@ -1,32 +1,40 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-// ...
 
 class People extends Component {
-  static propTypes = {
-    // ...
+
+  renderPerson = (person) =>
+    <div
+      className="App-box"
+      key={person.id}>
+      {person.name}
+    </div>
+
+  displayPeopleList = (list) => {
+
+    if (this.props.query) {
+      const query = this.props.query.toUpperCase()
+      const queriedList = list.filter(person => person.name.toUpperCase().includes(query))
+      return queriedList.map(person => this.renderPerson(person))
+    } else {
+      return list.map(person => this.renderPerson(person))
+    }
   };
 
-  // ...
-
   render() {
+    const { people } = this.props
     return (
       <div>
-        {/* ... */}
+        {this.displayPeopleList(people)}
       </div>
     );
-  }
-}
+  };
+};
 
 const mapStateToProps = (state) => ({
-  // ...
+  people: state.browse.people,
+  query: state.browse.filterQuery
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  // ...
-}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(People);
+export default connect(mapStateToProps, null)(People);
